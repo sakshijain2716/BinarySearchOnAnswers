@@ -1,0 +1,38 @@
+class Solution {
+public:
+int check(vector<int>& weights, int cap)
+{
+    int sum = 0 , days_cnt=1;
+    for(int i=0 ;i<weights.size() ; i++)
+    {
+        if(sum+weights[i] <= cap)
+        {
+            sum += weights[i];
+        }
+        else
+        {
+            days_cnt++;
+            sum = weights[i];
+        }
+    }
+    return days_cnt;
+}
+    int shipWithinDays(vector<int>& weights, int days) {
+        int n = weights.size() , ans = INT_MAX;
+        int st = *max_element(weights.begin() , weights.end());
+        int end = accumulate(weights.begin() , weights.end() ,0);
+        while(st<=end)
+        {
+            int mid = st+(end-st)/2;
+            int days_cnt = check(weights, mid);
+            if(days_cnt<= days)
+            {
+                ans = mid;
+                end = mid-1;
+            }
+            else
+            st = mid+1;
+        }
+        return ans;
+    }
+};
