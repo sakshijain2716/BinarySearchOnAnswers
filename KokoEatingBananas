@@ -1,0 +1,34 @@
+class Solution {
+public:
+double check(vector<int>& piles ,int banana_per_hour)
+{
+    double time = 0;
+    for(int i=0 ; i<piles.size() ; i++)
+    {
+        time += ceil(double(piles[i])/ double(banana_per_hour));
+    }
+    return time;
+
+}
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int n = piles.size();
+        int range = *max_element(piles.begin() , piles.end());    //max possible ans can be max value from piles
+        int ans = INT_MAX;
+        int low = 1 , high = range;
+        while(low<=high)
+        {
+            int mid = low + (high-low)/2;
+            double req_time = check(piles , mid);  //total time jf we take mid number of bananas are eaten per hour
+            if(req_time <= h)
+            {
+                ans = mid;   //if this is <= h then it can be ans and we have to find min possible integer so move to left part
+                high = mid-1;
+            }
+            else
+            {
+                low = mid+1;     //as we go left time will increase so if time>h then we will move to right part
+            }
+        }
+        return ans;
+    }
+};
