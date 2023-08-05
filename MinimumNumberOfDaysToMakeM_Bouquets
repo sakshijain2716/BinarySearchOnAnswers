@@ -1,0 +1,49 @@
+class Solution {
+public:
+int count(vector<int>& bloomDay, int m, int k , int day)
+{
+    int adj = 0 , no_of_boq=0;
+    for(int i=0 ; i<bloomDay.size() ; i++)
+    {
+        if(bloomDay[i]>day)
+        {
+            no_of_boq += adj/k;
+            adj = 0;
+        }
+        else
+        adj++;
+    }
+    no_of_boq += adj/k;
+    return no_of_boq;
+}
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        //if we take day as 5 then all flowers from(0 to 4 will bloomed already)
+             // 5 7 6 10 4 3
+//day=7         B B B    B B
+//those mentioned with B will bloom then we have to check k adjacent ones m number of times are possible or not to make the bouquet
+        int n = bloomDay.size();
+        long long total_flowers = m * 1LL *k * 1LL ;
+        int ans = INT_MAX;
+
+        if(total_flowers > n) //we cannot take required adjacent flowers
+        return -1; 
+        int low = *min_element(bloomDay.begin() , bloomDay.end());
+        int high = *max_element(bloomDay.begin() , bloomDay.end()); 
+
+        while(low<=high)
+        {
+            int mid = low+(high-low)/2;
+            int cnt = count(bloomDay ,  m , k , mid);
+            if(cnt >= m)
+            {
+                ans = mid;
+                high = mid-1;
+            }
+            else 
+            low = mid+1;
+
+        }
+        return ans;
+
+    }
+};
