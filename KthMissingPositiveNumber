@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int findKthPositive(vector<int>& arr, int k) {
+        int n = arr.size();
+        int low = 0 , high = n-1;
+        while(low<=high)
+        {
+            int mid = low+(high-low)/2;
+            int missing_cnt_atmid = arr[mid] - (mid+1);
+            if(missing_cnt_atmid < k)   //if only 3 numbers are missing before mid index but we have to find 5th missing number then eliminate left portion 
+            low = mid+1;
+
+            else
+            high = mid-1;
+        } 
+        // after while loop high will be just before low
+        //rem (more) numbers that are required = k - missing at that index
+        // and missing = arr[high] - (high+1)   //in actual ith index (i+1)shoulb be there 
+        //high ab low index vali jgh p point kr rha hoga means our ans lies between high and low --  high.....low
+        // ans = arr[high] + more
+        // ans = arr[high] + (k - missing)
+        // ans = arr[high] + (k -  (arr[high] - (high+1)) )
+        // ans = arr[high] + (k - arr[high] + high +1)
+        // ans = arr[high] + k -arr[high] +high +1
+        // ans = k + high + 1;
+        return high+1+k;
+        
+        
+    }
+};
