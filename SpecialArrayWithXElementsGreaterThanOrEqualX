@@ -1,0 +1,33 @@
+class Solution {
+public:
+int check(vector<int>& nums , int x)
+{
+    int count =0;
+    for(int i=0 ; i<nums.size() ; i++)
+    {
+        if(nums[i]>=x)
+        count++;
+    }
+    return count;
+}
+    int specialArray(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin() , nums.end());
+        int low = 1 , high = nums[n-1];
+        while(low<=high)
+        {
+            int mid = low+(high-low)/2;
+            int cnt = check(nums , mid);
+            if(cnt == mid)
+            return mid;
+
+            else if(cnt > mid)
+            low = mid+1;
+
+            else
+            high = mid-1;
+
+        }
+        return -1;
+    }
+};
