@@ -1,0 +1,37 @@
+class Solution {
+public:
+bool dist(vector<int>& price, int num , int k)
+{
+    int n = price.size() , start = price[0] , cnt = 1;
+    for(int i=1 ; i<n ; i++)
+    {
+        if(price[i]-start >= num)      //agr assumed minimum diff se kam nhi ja rha h current diff to use sell krdenge
+        {
+            start = price[i];
+            cnt++;
+        }
+        if(cnt >=k)
+        return 1;
+    }
+    return 0;
+}
+    int maximumTastiness(vector<int>& price, int k) {
+        int n = price.size() , ans =0 ;
+        sort(price.begin() , price.end());
+        // 1 2 5 8 13 21
+        int low = 1 , high = price[n-1] - price[0];
+        while(low<=high)
+        {
+            int mid = low+(high-low)/2;
+            int tastiness = dist(price , mid , k);  //check kia if min diff mid k equal lete h to k candies sell ho pa ri h ya ni
+            if(tastiness == 1)  // we can sell k candies with min diff k
+            {
+                ans = mid;
+                low = mid+1;     // ab minimum diff ko or bda assume krenge because maximum nikalna h
+            }
+            else
+            high = mid-1;   // if with diff=mid we cannot sell candies then with higher diff value it is not possible
+        }
+        return ans;
+    }
+};
