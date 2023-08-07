@@ -1,0 +1,32 @@
+class Solution {
+public:
+bool check(vector<int>& ranks, int cars , long long mn_time)
+{
+    long long cars_done=0;
+    for(int i=0 ;i<ranks.size() ;i++)
+    {
+        cars_done += floor(sqrt(mn_time/ranks[i]));
+    }
+    if(cars_done < cars)
+    return 0;
+    return 1;
+}
+    long long repairCars(vector<int>& ranks, int cars) {
+        int n = ranks.size() ;
+        long long ans=-1;
+        long long low = 1 , high = 1e14;        //max rank = 100 , mx cars = 10^6==> time = max rank * mx cars * mx cars
+         while(low<=high)
+        {
+            long long mid = low+(high-low)/2;     //mn time taken
+            bool valid = check(ranks , cars , mid);
+            if(valid)
+            {
+                ans = mid;
+                high = mid-1;
+            }
+            else
+            low = mid+1;
+        }
+        return ans;
+    }
+};
