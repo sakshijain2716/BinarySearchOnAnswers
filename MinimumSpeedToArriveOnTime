@@ -1,0 +1,33 @@
+class Solution {
+public:
+bool check(vector<int>& dist, double hour , int mn_speed)
+{
+    double h = 0.0;
+    for(int i=0 ; i<dist.size()-1 ; i++)     //last train l lie ceil nhi calc krenge becz uske baad koi train nhi leni
+     {
+        h += ceil(double(dist[i])/double(mn_speed));
+    }
+    h += double(dist[dist.size()-1])/double(mn_speed);
+    if(h>hour)
+    return 0;
+    return 1;
+}
+    int minSpeedOnTime(vector<int>& dist, double hour) {
+        int n = dist.size() , ans = INT_MAX;
+        int low = 1 , high = 1e7;
+
+        while(low<=high)
+        {
+            int mid = low+(high-low)/2;
+            bool valid = check(dist , hour , mid);
+            if(valid)
+            {
+                ans = mid;
+                high = mid-1;
+            }
+            else
+            low = mid+1;
+        }
+        return ans ==INT_MAX ? -1 : ans;
+    }
+};
